@@ -3,6 +3,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from usage.application.use_cases import GetSnapshotByPhoneNumberUseCase
 from usage.infrastructure.repos.plan_repo import SqlAlchemyPlanRepository
 from usage.infrastructure.repos.usage_repo import SqlAlchemyUsageRepository
+from presentation.ws_manager import manager
 
 ws_router = APIRouter()
 
@@ -18,6 +19,9 @@ async def usage_ws(ws: WebSocket):
             })
             await ws.close(code=1008)  # Cierre intencional por dato inválido
             return
+
+        # registrar conexión
+        await manager.register(phone_number, ws)
 
         usecase = GetSnapshotByPhoneNumberUseCase(
             plans=SqlAlchemyPlanRepository(),

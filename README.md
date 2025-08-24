@@ -6,6 +6,9 @@
 Run:
 
   docker compose build --no-cache 
-  docker compose up
+  docker compose up -d
 
   docker compose down -v        # <- elimina contenedores y volúmenes (incluye dbdata)
+
+  migraciones
+  docker compose exec -T db sh -c 'mysql -utelcox -ptelcox telcox' < db/seed_usage.sql

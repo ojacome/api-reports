@@ -3,8 +3,9 @@ from presentation.routes import router as api_router
 from presentation.ws_routes import ws_router
 from infrastructure.db import Base, engine, seed_initial_data
 from usage.infrastructure import models_usage as usage_models
+from presentation.routes_dev import dev_router
 
-app = FastAPI(title="TelcoX Self-Service API", version="2.0.0 (DNI-based)")
+app = FastAPI(title="TelcoX Self-Service API", version="1.0.0 (DNI-based)")
 
 @app.on_event("startup")
 def on_startup():
@@ -14,5 +15,7 @@ def on_startup():
 
 # REST
 app.include_router(api_router, prefix="/api")
+app.include_router(dev_router)
+
 # WebSockets
 app.include_router(ws_router)

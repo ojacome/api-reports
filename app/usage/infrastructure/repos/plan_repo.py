@@ -1,31 +1,31 @@
+# usage/infrastructure/repos/plan_repo.py
+from usage.domain.ports import PlanRepository
 from sqlalchemy import select
-from infrastructure.db import SessionLocal, engine
-from usage.infrastructure.models_usage import UsageBase, ClientModel, PhoneLineModel, DataPlanModel
+from infrastructure.db import SessionLocal
+from usage.infrastructure.models_usage import DataPlanModel, PhoneLineModel, ClientModel
 from usage.domain.entities import DataPlan
 
-UsageBase.metadata.create_all(bind=engine)
-
-class SqlAlchemyPlanRepository:
-    def get_active_plan_by_phone_number(self, phone_number: str):
+class SqlAlchemyPlanRepository(PlanRepository):
+    def get_active_plan_by_phone_number(self, phone_number: str) -> tuple[DataPlan, str]:
         with SessionLocal() as db:
-            stmt = (
-                select(DataPlanModel, ClientModel.full_name, PhoneLineModel.id)
+            row = db.execute(
+                select(DataPlanModel, ClientModel.full_name)
                 .join(PhoneLineModel, PhoneLineModel.id == DataPlanModel.line_id)
                 .join(ClientModel, ClientModel.id == PhoneLineModel.client_id)
-                .where(PhoneLineModel.phone_number == phone_number)
-                .where(DataPlanModel.is_active == True)
-            )
-            row = db.execute(stmt).first()
+                .where(PhoneLineModel.phone_number == phone_number, DataPlanModel.is_active.is_(True))
+            ).first()
+
             if not row:
                 raise ValueError("No active data plan for this phone_number")
-            plan_row, full_name, _ = row
+
+            plan_row, full_name = row
             plan = DataPlan(
                 id=plan_row.id,
                 line_id=plan_row.line_id,
                 limit_bytes=plan_row.limit_bytes,
                 used_bytes=plan_row.used_bytes or 0,
-                start_at=plan_row.start_at.isoformat() if plan_row.start_at else "",
-                expiration_at=plan_row.expiration_at.isoformat() if plan_row.expiration_at else "",
+                start_at=plan_row.start_at,          
+                expiration_at=plan_row.expiration_at, 
                 is_active=bool(plan_row.is_active),
             )
             return plan, full_name

@@ -1,0 +1,7 @@
+from enum import Enum
+
+class DataCategory(str, Enum):
+    SOCIAL = "SOCIAL"
+    ENTERTAINMENT = "ENTERTAINMENT"
+    SYSTEM_UPDATES = "SYSTEM_UPDATES"
+    NAVIGATION_SEARCH = "NAVIGATION_SEARCH"
