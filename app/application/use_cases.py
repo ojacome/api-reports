@@ -3,12 +3,12 @@ from domain.repositories import BillingRepository
 from domain.services import BssGateway
 from domain.entities import CustomerSummary, Invoice
 
-class GetCustomerSummaryByDniUseCase:
+class GetCustomerSummaryByPhoneNumberUseCase:
     def __init__(self, bss_gateway: BssGateway):
         self._bss = bss_gateway
 
-    def execute(self, dni: str) -> CustomerSummary:
-        return self._bss.get_customer_summary_by_dni(dni)
+    def execute(self, phone_number: str) -> CustomerSummary:
+        return self._bss.get_customer_summary_by_phone_number(phone_number)
 
 class GetBillingHistoryByPhoneNumberUseCase:
     def __init__(self, repo: BillingRepository):

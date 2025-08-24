@@ -1,14 +1,14 @@
 from fastapi import FastAPI, HTTPException
 
-app = FastAPI(title="Mock BSS (DNI-based)", version="2.0.0")
+app = FastAPI(title="Mock BSS", version="2.0.0")
 
 BSS_DATA = {
-  "0912345678": {
+  "0969786985": {
     "customer_id": 1,
-    "dni": "0912345678",
-    "name": "Alice R.",
+    "dni": "0929668846",
+    "name": "Jesus Jacome",
     "product_type": "MOVIL",
-    "phone_number": "+593991234567",
+    "phone_number": "0969786985",
     "balance_usd": 12.75,
     "balance_limit_usd": 30.0,
     "minutes_remaining": 320,
@@ -38,8 +38,8 @@ BSS_DATA = {
   }
 }
 
-@app.get("/bss/customers/by-dni/{dni}/summary")
-def get_summary_by_dni(dni: str):
-    if dni not in BSS_DATA:
+@app.get("/bss/customers/by-phone-number/{phone_number}/summary")
+def get_summary_by_phone_number(phone_number: str):
+    if phone_number not in BSS_DATA:
         raise HTTPException(status_code=404, detail="Customer not found in BSS")
-    return BSS_DATA[dni]
+    return BSS_DATA[phone_number]
