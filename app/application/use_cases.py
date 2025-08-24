@@ -10,9 +10,9 @@ class GetCustomerSummaryByDniUseCase:
     def execute(self, dni: str) -> CustomerSummary:
         return self._bss.get_customer_summary_by_dni(dni)
 
-class GetBillingHistoryByDniUseCase:
+class GetBillingHistoryByPhoneNumberUseCase:
     def __init__(self, repo: BillingRepository):
         self._repo = repo
 
-    def execute(self, dni: str) -> List[Invoice]:
-        return self._repo.list_invoices_by_dni(dni)
+    def execute(self, phone_number: str) -> List[Invoice]:
+        return self._repo.list_invoices_by_phone_number(phone_number)

@@ -16,6 +16,7 @@ class InvoiceModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     customer_dni: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
+    phone_number: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
     customer_name: Mapped[str] = mapped_column(String(200), nullable=False)
     period: Mapped[str] = mapped_column(String(7), nullable=False)  # YYYY-MM
     total: Mapped[float] = mapped_column(Float, nullable=False)
@@ -27,7 +28,7 @@ class InvoiceModel(Base):
         nullable=False
     )
     payment_date: Mapped[datetime] = mapped_column(
-        DateTime(),                           # MySQL DATETIME (sin zona horaria)
+        DateTime(),                         
         nullable=False,
-        server_default=func.now()             # DEFAULT CURRENT_TIMESTAMP
+        server_default=func.now()          
     )

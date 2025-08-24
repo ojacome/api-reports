@@ -21,6 +21,7 @@ class Invoice:
     id: int
     customer_dni: int
     customer_name: str
+    phone_number: str
     period: str  # 'YYYY-MM'
     total: float
     tax: float

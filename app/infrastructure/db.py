@@ -1,4 +1,3 @@
-# app/infrastructure/db.py
 from datetime import datetime
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
@@ -10,7 +9,7 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, futu
 
 def seed_initial_data():
     """Seed some invoice rows if table is empty (nueva estructura)."""
-    # Crea tablas si no existen (no hace ALTER)
+
     Base.metadata.create_all(bind=engine)
 
     with SessionLocal() as db:
@@ -19,10 +18,10 @@ def seed_initial_data():
             return
 
         invoices = [
-            # DNI 0912345678 (Alice R.)
             InvoiceModel(
-                customer_dni="0912345678",
-                customer_name="Alice R.",
+                customer_dni="0929668846",
+                customer_name="Jesus Jacome",
+                phone_number="0969786985",
                 period="2025-05",
                 total=25.00,
                 tax=3.00,
@@ -31,8 +30,9 @@ def seed_initial_data():
                 payment_date=datetime(2025, 5, 25, 14, 30, 0),
             ),
             InvoiceModel(
-                customer_dni="0912345678",
-                customer_name="Alice R.",
+                customer_dni="0929668846",
+                customer_name="Jesus Jacome",
+                phone_number="0969786985",
                 period="2025-06",
                 total=30.00,
                 tax=3.60,
@@ -40,10 +40,10 @@ def seed_initial_data():
                 payment_method=PaymentMethodEnum.TRANSFERENCIA,
                 payment_date=datetime(2025, 6, 28, 9, 15, 0),
             ),
-            # DNI 0923456789 (Bruno S.)
             InvoiceModel(
                 customer_dni="0923456789",
                 customer_name="Bruno S.",
+                phone_number="0969786900",
                 period="2025-06",
                 total=20.00,
                 tax=2.40,

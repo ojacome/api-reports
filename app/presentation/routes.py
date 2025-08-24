@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from application.use_cases import GetCustomerSummaryByDniUseCase, GetBillingHistoryByDniUseCase
+from application.use_cases import GetCustomerSummaryByDniUseCase, GetBillingHistoryByPhoneNumberUseCase
 from presentation.schemas import CustomerSummaryOut, BillingListOut, InvoiceOut
 from container import Container
 
@@ -17,8 +17,8 @@ def get_customer_summary(dni: str, container: Container = Depends(get_container)
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Error contacting BSS: {e}")
 
-@router.get("/customers/{dni}/billing", response_model=BillingListOut)
-def get_billing(dni: str, container: Container = Depends(get_container)):
-    usecase: GetBillingHistoryByDniUseCase = container.billing_usecase()
-    invoices = usecase.execute(dni)
+@router.get("/customers/{phone_number}/billing", response_model=BillingListOut)
+def get_billing(phone_number: str, container: Container = Depends(get_container)):
+    usecase: GetBillingHistoryByPhoneNumberUseCase = container.billing_usecase()
+    invoices = usecase.execute(phone_number)
     return BillingListOut(items=[InvoiceOut(**inv.__dict__) for inv in invoices])

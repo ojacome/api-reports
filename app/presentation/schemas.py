@@ -19,6 +19,7 @@ class InvoiceOut(BaseModel):
     id: int
     customer_dni: str
     customer_name: str
+    phone_number: str
     period: str
     total: float
     tax: float

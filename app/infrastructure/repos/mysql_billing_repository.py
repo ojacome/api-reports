@@ -9,12 +9,12 @@ class MysqlBillingRepository:
     def __init__(self):
         self._Session = SessionLocal
 
-    def list_invoices_by_dni(self, dni: str) -> List[Invoice]:
+    def list_invoices_by_phone_number(self, phone_number: str) -> List[Invoice]:
         with self._Session() as db:
             rows = (
                 db.execute(
                     select(InvoiceModel)
-                    .where(InvoiceModel.customer_dni == dni)
+                    .where(InvoiceModel.phone_number == phone_number)
                     .order_by(InvoiceModel.period.desc(), InvoiceModel.id.desc())
                 )
                 .scalars()
@@ -29,6 +29,7 @@ class MysqlBillingRepository:
                         id=row.id,
                         customer_dni=row.customer_dni,
                         customer_name=row.customer_name,
+                        phone_number=row.phone_number,
                         period=row.period,
                         total=row.total,
                         tax=row.tax,
