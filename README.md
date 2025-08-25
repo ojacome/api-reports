@@ -61,3 +61,14 @@ GET http://localhost:8000/api/customers/{phone}/summary
 
 Historial de facturas (REST)
 GET http://localhost:8000/api/customers/{phone}/billing
+
+## 📌 SWAGGER
+Podemos usar la documentacion de swagger para probar nuestra apic contiene lo necesario para testear
+
+http://localhost:8000/docs
+
+POST http://localhost:8000/api/dev/usage-event
+
+Lo usamos para simular el consumo de datos
+
+![alt text](image.png)
